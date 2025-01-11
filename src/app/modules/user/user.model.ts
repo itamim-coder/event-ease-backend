@@ -23,18 +23,10 @@ const userSchema = new Schema<TUser>(
       required: true,
       select: 0,
     },
-
     phone: {
       type: String,
       required: true,
       unique: true,
-    },
-    address: {
-      type: String,
-      required: true,
-    },
-    blocked: {
-      type: Boolean,
     },
   },
   {

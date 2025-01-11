@@ -17,7 +17,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 const corsOptions = {
-  origin: ["http://localhost:5173", "https://rentify-one-delta.vercel.app"],
+  origin: ["http://localhost:3000",],
 
   credentials: true,
   optionSuccessStatus: 200,
@@ -25,7 +25,7 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 // application routes
-app.use("/api", router);
+app.use("/api/v1", router);
 app.use(globalErrorHandler);
 
 //Not Found

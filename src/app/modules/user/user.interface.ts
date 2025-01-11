@@ -11,8 +11,6 @@ export interface TUser {
   role: "admin" | "user";
   password: string;
   phone: string;
-  address: string;
-  blocked: false;
 }
 
 export interface UserModel extends Model<TUser> {
