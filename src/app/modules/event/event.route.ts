@@ -1,8 +1,8 @@
 import express from "express";
 import validateRequest from "../../middlewares/validateRequest";
 
-import auth from "../../middlewares/auth";
-import { USER_ROLE } from "../user/user.constant";
+// import auth from "../../middlewares/auth";
+// import { USER_ROLE } from "../user/user.constant";
 import { EventValidation } from "./event.validation";
 import { EventController } from "./event.controller";
 
@@ -21,10 +21,6 @@ router.get("/:id", EventController.getSingleEvent);
 
 router.put("/:id", EventController.updateEvent);
 
-// router.delete(
-//   "/:id",
-//   auth(USER_ROLE.admin),
-//   EventController.softDeleteEvent
-// );
+router.delete("/:id", EventController.deleteEvent);
 
 export const EventRoutes = router;

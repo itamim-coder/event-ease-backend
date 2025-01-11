@@ -5,7 +5,6 @@ import httpStatus from "http-status";
 import { EventServices } from "./event.service";
 import { TEvent } from "./event.interface";
 
-
 const createEvent = catchAsync(async (req, res) => {
   const EventData = req.body;
 
@@ -67,11 +66,23 @@ const updateEvent = catchAsync(async (req, res) => {
   });
 });
 
+const deleteEvent = catchAsync(async (req, res) => {
+  const id = req.params.id;
+
+  const result = await EventServices.deleteEvent(id);
+
+  sendResponse<TEvent>(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Event deleted successfully !",
+    data: result,
+  });
+});
 
 export const EventController = {
   createEvent,
   getAllEvents,
   getSingleEvent,
   updateEvent,
-
+  deleteEvent,
 };

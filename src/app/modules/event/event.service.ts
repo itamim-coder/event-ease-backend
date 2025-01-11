@@ -45,9 +45,16 @@ const updateEvent = async (
   return result;
 };
 
+const deleteEvent = async (_id: string): Promise<TEvent | null> => {
+  const result = await Event.findByIdAndDelete(_id);
+
+  return result;
+};
+
 export const EventServices = {
   createEvent,
   getAllEvents,
   getSingleEvent,
   updateEvent,
+  deleteEvent,
 };
