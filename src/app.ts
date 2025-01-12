@@ -2,6 +2,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
+
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import express, { Application } from "express";
@@ -17,9 +18,10 @@ app.use(express.json());
 app.use(cookieParser());
 
 const corsOptions = {
-  origin: ["http://localhost:3000",],
-
-  credentials: true,
+  origin: ['http://localhost:3000'],
+  methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
+  preflightContinue: false,
+  credentials: true, //access-control-allow-credentials:true
   optionSuccessStatus: 200,
 };
 

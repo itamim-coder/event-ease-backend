@@ -11,6 +11,7 @@ import { Booking } from "./booking.model";
 
 import { TEvent } from "../event/event.interface";
 import { Event } from "../event/event.model";
+import { io } from "../../../server";
 
 const createBooking = async (
   user: Types.ObjectId,
@@ -75,6 +76,14 @@ const createBooking = async (
     await booking.save({ session });
 
     await session.commitTransaction();
+    // Assuming eventDetails.createdBy is an embedded user object with _id
+    const organizerId = EventData.createdBy._id.toString(); // Extracts the user ID
+
+    // Emit the new booking notification to the organizer
+    io.to(organizerId).emit("newBooking", {
+      message: `New booking for your event '${EventData.name}'`,
+      booking,
+    });
   } catch (error) {
     await session.abortTransaction();
     throw error;
