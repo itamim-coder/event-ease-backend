@@ -7,7 +7,7 @@ import httpStatus from "http-status";
 
 const createBooking = catchAsync(async (req: any, res) => {
   const { userId } = req.user;
-  //   console.log("booking", req.user);
+
   const { ...bookingData } = req.body;
 
   const result = await BookingServices.createBooking(userId, bookingData);
@@ -44,10 +44,7 @@ const getUserBookings = catchAsync(async (req: any, res) => {
   }
 });
 
-
-
 export const BookingControllers = {
   createBooking,
   getUserBookings,
-
 };

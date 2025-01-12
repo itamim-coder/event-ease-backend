@@ -10,7 +10,6 @@ const loginUser = async (payload: TLoginUser) => {
 
   const isUserExist = await User.isUserExist(email);
 
-
   if (!isUserExist) {
     throw new AppError(httpStatus.NOT_FOUND, "User does not exist");
   }
@@ -22,11 +21,11 @@ const loginUser = async (payload: TLoginUser) => {
     throw new AppError(httpStatus.UNAUTHORIZED, "Password is incorrect");
   }
 
-
-
   const jwtPayload = {
     userId: isUserExist._id,
+    name: isUserExist.name,
     email: isUserExist.email,
+    phone: isUserExist.phone,
     role: isUserExist.role,
   };
 

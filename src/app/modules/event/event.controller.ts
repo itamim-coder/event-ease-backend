@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import catchAsync from "../../shared/catchAsync";
 import sendResponse from "../../shared/sendResponse";
 
@@ -5,10 +6,10 @@ import httpStatus from "http-status";
 import { EventServices } from "./event.service";
 import { TEvent } from "./event.interface";
 
-const createEvent = catchAsync(async (req, res) => {
+const createEvent = catchAsync(async (req: any, res) => {
+  const { userId } = req.user;
   const EventData = req.body;
-
-  const result = await EventServices.createEvent(EventData);
+  const result = await EventServices.createEvent(userId, EventData);
 
   sendResponse(res, {
     success: true,

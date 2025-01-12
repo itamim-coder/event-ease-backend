@@ -6,11 +6,10 @@ const createEventZodSchema = z.object({
     date: z.string().nonempty("Date is required"),
     location: z.string().nonempty("Location is required"),
     maxAttendees: z
-    .number()
-    .int("Max attendees must be an integer")
-    .positive("Max attendees must be a positive number")
-    .min(1, "There should be at least one attendee"),
-    createdBy: z.string().nonempty("Created is required"),
+      .number()
+      .int("Max attendees must be an integer")
+      .positive("Max attendees must be a positive number")
+      .min(1, "There should be at least one attendee"),
   }),
 });
 

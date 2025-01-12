@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { Types } from "mongoose";
+import { TUser } from "../user/user.interface";
 
 export interface TEvent {
   save(arg0: { session: import("mongodb").ClientSession }): unknown;
@@ -9,5 +10,5 @@ export interface TEvent {
   location: string;
   maxAttendees: number;
   status?: "available" | "unavailable";
-  createdBy: string;
+  createdBy: Types.ObjectId | TUser;
 }

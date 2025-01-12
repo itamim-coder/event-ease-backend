@@ -12,10 +12,13 @@ const eventSchema = new Schema<TEvent>(
       enum: ["available", "unavailable"],
       default: "available",
     },
-    createdBy: { type: String, required: true },
+    createdBy: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
   },
   { timestamps: true }
 );
-
 
 export const Event = model<TEvent>("Event", eventSchema);
