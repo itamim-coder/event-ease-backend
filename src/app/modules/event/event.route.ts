@@ -18,6 +18,11 @@ router.post(
 );
 
 router.get("", EventController.getAllEvents);
+router.get(
+  "/user-event",
+  auth(USER_ROLE.user),
+  EventController.getEventCreatedByUser
+);
 
 router.get("/:id", EventController.getSingleEvent);
 

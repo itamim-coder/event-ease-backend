@@ -29,17 +29,17 @@ async function main() {
 
     // Listen for socket connections
     io.on("connection", (socket) => {
-      console.log(`User connected: ${socket.id}`);
+      // console.log(`User connected: ${socket.id}`);
 
       // Example event: Listen for a 'joinRoom' event
       socket.on("joinRoom", (room) => {
-        console.log(`User joined room: ${room}`);
+        // console.log(`User joined room: ${room}`);
         socket.join(room);
       });
 
       // Disconnect event
       socket.on("disconnect", () => {
-        console.log(`User disconnected: ${socket.id}`);
+        // console.log(`User disconnected: ${socket.id}`);
       });
     });
   } catch (err) {

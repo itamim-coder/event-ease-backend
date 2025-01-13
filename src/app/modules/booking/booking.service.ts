@@ -20,6 +20,7 @@ const createBooking = async (
   const userId = user;
   const eventId = bookingData?.event;
   const ticketsToBook = bookingData?.ticket;
+
   if (!Types.ObjectId.isValid(userId)) {
     throw new AppError(httpStatus.BAD_REQUEST, "Invalid user ID");
   }
@@ -57,17 +58,7 @@ const createBooking = async (
   let booking: TBooking | null = null;
 
   try {
-    // Decrease maxAttendees by 1
-    EventData.maxAttendees -= ticketsToBook;
-
-    // Update the event status if no spots are left
-    if (EventData.maxAttendees === 0) {
-      EventData.status = "unavailable";
-    }
-
-    await EventData.save({ session });
-
-    // Create a new booking entry
+    // Create a new booking entry first
     booking = new Booking({
       ...bookingData,
       user: userId,
@@ -75,15 +66,40 @@ const createBooking = async (
     });
     await booking.save({ session });
 
-    await session.commitTransaction();
-    // Assuming eventDetails.createdBy is an embedded user object with _id
-    const organizerId = EventData.createdBy._id.toString(); // Extracts the user ID
-
-    // Emit the new booking notification to the organizer
-    io.to(organizerId).emit("newBooking", {
-      message: `New booking for your event '${EventData.name}'`,
+    // Notify the organizer about the new booking
+    io.to(EventData.createdBy._id.toString()).emit("newBooking", {
+      message: `'${UserData.name}' booked your event '${EventData.name}'`,
       booking,
     });
+
+    // Decrease maxAttendees by the tickets to book
+    EventData.maxAttendees -= ticketsToBook;
+
+    // Check and update the event status if no spots are left
+    if (EventData.maxAttendees === 0) {
+      EventData.status = "unavailable";
+
+      // Notify the organizer of the status change first
+      io.to(EventData.createdBy._id.toString()).emit("statusChanged", {
+        message: `Your event '${EventData.name}' status changed to ${EventData.status}`,
+        EventData,
+      });
+
+      // Now notify all users who booked the event about the status change
+      const buyers = await Booking.find({ event: bookingData?.event }).populate(
+        "user"
+      );
+      buyers.forEach((booking) => {
+        io.to(booking.user._id.toString()).emit("statusChanged", {
+          message: `The event '${EventData.name}' status has changed to ${EventData.status}`,
+          EventData,
+        });
+      });
+    }
+
+    await EventData.save({ session });
+
+    await session.commitTransaction();
   } catch (error) {
     await session.abortTransaction();
     throw error;

@@ -40,6 +40,18 @@ const getAllEvents = catchAsync(async (req, res) => {
   }
 });
 
+const getEventCreatedByUser = catchAsync(async (req: any, res) => {
+  const { userId } = req.user;
+
+  const result = await EventServices.getEventCreatedByUser(userId);
+
+  sendResponse<TEvent[]>(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "User Event retrieved successfully !",
+    data: result,
+  });
+});
 const getSingleEvent = catchAsync(async (req, res) => {
   const id = req.params.id;
 
@@ -56,7 +68,8 @@ const getSingleEvent = catchAsync(async (req, res) => {
 const updateEvent = catchAsync(async (req, res) => {
   const { id } = req.params;
   const updatedData = req.body;
-
+console.log(id)
+console.log(updatedData)
   const result = await EventServices.updateEvent(id, updatedData);
 
   sendResponse<TEvent>(res, {
@@ -83,6 +96,7 @@ const deleteEvent = catchAsync(async (req, res) => {
 export const EventController = {
   createEvent,
   getAllEvents,
+  getEventCreatedByUser,
   getSingleEvent,
   updateEvent,
   deleteEvent,
