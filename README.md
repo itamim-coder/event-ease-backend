@@ -1,3 +1,10 @@
+## Tech Stack 🛠️
+
+- **Frontend:** Next.js, TypeScript, Redux  
+- **Backend:** Node.js, Express.js, Mongoose  
+- **Database:** MongoDB, 
+- **Authentication:** JWT  
+
 ## Installation ⚙️
 
 Clone the repo and install dependencies:
