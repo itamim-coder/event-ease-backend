@@ -27,7 +27,6 @@ const getAllEvents = catchAsync(async (req, res) => {
       statusCode: httpStatus.OK,
       success: true,
       message: "Events retrieved successfully !",
-
       data: result,
     });
   } else {
@@ -69,7 +68,7 @@ const updateEvent = catchAsync(async (req, res) => {
   const { id } = req.params;
   const updatedData = req.body;
 console.log(id)
-console.log(updatedData)
+console.log(req)
   const result = await EventServices.updateEvent(id, updatedData);
 
   sendResponse<TEvent>(res, {
